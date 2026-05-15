@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
       const res = await axios.post("http://localhost:8080/api/register", {
         name,
@@ -14,23 +18,95 @@ function Register() {
         password,
       });
 
-      console.log(res.data);
-      alert("Registered successfully");
+      alert("Registration successful! Please login.");
+      window.location.href = "/login";
     } catch (err) {
       console.error(err);
-      alert("Error registering");
+      alert(err.response?.data?.message || "Error registering");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
+      <div className="max-w-md w-full">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold">
+              B
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Blogora</h1>
+            </div>
+          </Link>
+        </div>
 
-      <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} /><br />
-      <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} /><br />
-      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} /><br />
+        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-10">
+          <h2 className="text-3xl font-semibold text-center mb-2">Create account</h2>
+          <p className="text-gray-500 text-center mb-8">Join our community of writers and readers</p>
 
-      <button onClick={handleRegister}>Register</button>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                placeholder="Sarthak Sharma"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Create a strong password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-indigo-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-3.5 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={handleRegister}
+              disabled={loading}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 rounded-2xl transition-all active:scale-95 disabled:opacity-70"
+            >
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+          </div>
+
+          <p className="text-center mt-8 text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
