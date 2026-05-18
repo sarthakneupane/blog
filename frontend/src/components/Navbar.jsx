@@ -60,12 +60,13 @@ const Navbar = ({ selectedCategory, setSelectedCategory, isLoggedIn, setIsLogged
             </div>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Section */}
           {isLoggedIn ? (
+            /* ==================== LOGGED IN ==================== */
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-9 h-9 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-semibold hover:ring-2 hover:ring-indigo-200"
+                className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center font-semibold hover:ring-2 hover:ring-indigo-200 transition-all"
               >
                 S
               </button>
@@ -81,8 +82,12 @@ const Navbar = ({ selectedCategory, setSelectedCategory, isLoggedIn, setIsLogged
                   <button className="w-full text-left px-6 py-3 hover:bg-gray-50">❤️ Bookmarks</button>
                   <div className="border-t my-1"></div>
                   <button 
-                    onClick={() => setIsLoggedIn(false)}
-                    className="w-full text-left px-6 py-3 hover:bg-gray-50 text-red-600"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      setIsLoggedIn(false);
+                      setShowUserMenu(false);
+                    }}
+                    className="w-full text-left px-6 py-3 hover:bg-gray-50 text-red-600 font-medium"
                   >
                     Sign Out
                   </button>
@@ -90,6 +95,7 @@ const Navbar = ({ selectedCategory, setSelectedCategory, isLoggedIn, setIsLogged
               )}
             </div>
           ) : (
+            /* ==================== NOT LOGGED IN ==================== */
             <div className="flex items-center gap-3">
               <Link 
                 to="/login"

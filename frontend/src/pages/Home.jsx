@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -39,9 +39,84 @@ const BlogCard = ({ blog }) => (
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const blogs = [ /* ... same blog data as before ... */ ];
+    // 👇 check token on load
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        setIsLoggedIn(true);
+      }
+    }, []);
+
+  const blogs = [
+    {
+      id: 1,
+      title: "The Future of AI in Everyday Life",
+      excerpt: "Artificial Intelligence is transforming how we live, work, and interact. From smart homes to self-driving cars, AI is becoming part of daily life.",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+      author: "Sarthak Sharma",
+      authorAvatar: "https://i.pravatar.cc/150?img=1",
+      date: "May 10, 2026",
+      readTime: "5 min read"
+    },
+    {
+      id: 2,
+      title: "10 Healthy Habits for a Better Lifestyle",
+      excerpt: "Building small habits like daily exercise and mindful eating can significantly improve your overall lifestyle and mental health.",
+      category: "Lifestyle",
+      image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352",
+      author: "Anisha Karki",
+      authorAvatar: "https://i.pravatar.cc/150?img=2",
+      date: "May 8, 2026",
+      readTime: "4 min read"
+    },
+    {
+      id: 3,
+      title: "Top Travel Destinations in 2026",
+      excerpt: "Explore the most beautiful and trending travel destinations you must visit this year, from mountains to tropical beaches.",
+      category: "Travel",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+      author: "Rohit Adhikari",
+      authorAvatar: "https://i.pravatar.cc/150?img=3",
+      date: "May 5, 2026",
+      readTime: "6 min read"
+    },
+    {
+      id: 4,
+      title: "Delicious Street Foods You Must Try",
+      excerpt: "Street food offers a unique taste of culture. Here are some must-try street foods from around the world.",
+      category: "Food",
+      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+      author: "Priya Shrestha",
+      authorAvatar: "https://i.pravatar.cc/150?img=4",
+      date: "May 3, 2026",
+      readTime: "3 min read"
+    },
+    {
+      id: 5,
+      title: "How Startups Are Changing the Business World",
+      excerpt: "Startups are disrupting traditional industries with innovation, technology, and bold ideas.",
+      category: "Business",
+      image: "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+      author: "Aman Gupta",
+      authorAvatar: "https://i.pravatar.cc/150?img=5",
+      date: "May 1, 2026",
+      readTime: "7 min read"
+    },
+    {
+      id: 6,
+      title: "Understanding Cloud Computing Basics",
+      excerpt: "Cloud computing is the backbone of modern apps. Learn the basics and how it powers everything online.",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa",
+      author: "Neha Rai",
+      authorAvatar: "https://i.pravatar.cc/150?img=6",
+      date: "April 28, 2026",
+      readTime: "5 min read"
+    }
+  ];
 
   const filteredBlogs = selectedCategory === 'All' 
     ? blogs 
@@ -59,12 +134,23 @@ export default function Home() {
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-700 text-white py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
+          
           <h1 className="text-6xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
             Stories that<br />shape tomorrow
           </h1>
-          <p className="text-xl text-indigo-100 max-w-md mx-auto">
+
+          <p className="text-xl text-indigo-100 max-w-md mx-auto mb-8">
             Join a community of thinkers, creators, and storytellers.
           </p>
+
+          {/* ✅ ADD BLOG BUTTON */}
+          <a
+            href="/add-blog"
+            className="inline-block px-8 py-3 bg-white text-indigo-600 font-semibold rounded-2xl hover:bg-gray-100 transition-all shadow-lg"
+          >
+            ✍️ Add Blog
+          </a>
+
         </div>
       </div>
 
