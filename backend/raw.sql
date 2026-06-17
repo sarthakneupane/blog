@@ -15,7 +15,7 @@ CREATE TABLE blogs (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     image TEXT,
-    status VARCHAR(20) DEFAULT 'published', -- draft/published
+    status VARCHAR(20) DEFAULT 'published', 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
